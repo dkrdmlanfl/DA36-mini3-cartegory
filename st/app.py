@@ -130,27 +130,27 @@ elif st.session_state['page'] == 2:
     with st.container():
         col1, col2 = st.columns([2, 2.5])  # 두 개의 열로 나누기
         with col1:
-            # st.subheader('Upload here⬇️')
-            # # 모델 로드
-            # @st.cache_resource  # 캐싱을 통해 모델 로드 속도 향상
-            # def load_trained_model(model_path):
-            #     return load_model(model_path)
-            #
-            # # model_path = "mb_model.h5"
-            # model_path = "Xception_model.h5"
-            # model = load_trained_model(model_path)
-            #
-            # # 차량 모델 리스트
-            # label_classes = ['Carens', 'Kona', 'Mohave', 'Niro', 'Palisade', 'Santafe',
-            #                  'Seltos', 'Sorento', 'Soul', 'Sportage', 'Tucson', 'Veracruz']
-            #
-            # # 현대차, 기아차 모델 리스트
-            # electric_vehicles = ['Kona', 'Niro', 'Model', 'Santefe', 'Palisade']
-            # hyundai_models = ['Palisade', 'Tucson', 'Santafe', 'Veracruz', 'Kona', 'Niro']
-            # kia_models = ['Carens', 'Mohave', 'Seltos', 'Sorento', 'Soul', 'Sportage']
-            #
-            # # 이미지 업로드
-            # uploaded_file = st.file_uploader("", type=["png", "jpg", "jpeg"])
+            st.subheader('Upload here⬇️')
+            # 모델 로드
+            @st.cache_resource  # 캐싱을 통해 모델 로드 속도 향상
+            def load_trained_model(model_path):
+                return load_model(model_path)
+
+            # model_path = "mb_model.h5"
+            model_path = "Xception_model.h5"
+            model = load_trained_model(model_path)
+
+            # 차량 모델 리스트
+            label_classes = ['Carens', 'Kona', 'Mohave', 'Niro', 'Palisade', 'Santafe',
+                             'Seltos', 'Sorento', 'Soul', 'Sportage', 'Tucson', 'Veracruz']
+
+            # 현대차, 기아차 모델 리스트
+            electric_vehicles = ['Kona', 'Niro', 'Model', 'Santefe', 'Palisade']
+            hyundai_models = ['Palisade', 'Tucson', 'Santafe', 'Veracruz', 'Kona', 'Niro']
+            kia_models = ['Carens', 'Mohave', 'Seltos', 'Sorento', 'Soul', 'Sportage']
+
+            # 이미지 업로드
+            uploaded_file = st.file_uploader("", type=["png", "jpg", "jpeg"])
 
             if uploaded_file is not None:
                 # 업로드된 이미지 표시
@@ -182,41 +182,53 @@ elif st.session_state['page'] == 2:
                 #     st.markdown('<br>'*6, unsafe_allow_html=True)
                 #     st.error ("Sorry, I couldn't recognize this car model.")
 
+
                 if pred_label in hyundai_models:
+                    st.markdown(
+                        """
+                        < style >
+                        .stSuccess
+                        {
+                            font - size: 24px;
+                        padding: 20
+                        px;
+                        }
+                        < / style >
+                            """, unsafe_allow_html=True)
                     st.success(f"🚗... Your car is **<Hyundai> - {pred_label}**")
                     st.success(f"🤖... Accuracy is **{confidence * 100:.2f}%**")
-                elif pred_label in kia_models:
-                    st.success(f"🚗... Your car is **<Kia> - {pred_label}**")
-                    st.success(f"🤖... Accuracy is **{confidence * 100:.2f}%**")
+                  elif pred_label in kia_models:
+                      st.success(f"🚗... Your car is **<Kia> - {pred_label}**")
+                      st.success(f"🤖... Accuracy is **{confidence * 100:.2f}%**")
 
-                # 전기차일 경우 안내 문구 출력
-                if pred_label in electric_vehicles:
-                    st.markdown(f"잠깐🤚🏻 {pred_label}는 전기차입니다! 지상 주차장을 이용해주세요.")
-                else:
-                    st.info(f"{pred_label}은 지하 주차장에 진입할 수 있습니다. 🥳")
+                  # 전기차일 경우 안내 문구 출력
+                  if pred_label in electric_vehicles:
+                      st.markdown(f"잠깐🤚🏻 {pred_label}는 전기차입니다! 지상 주차장을 이용해주세요.")
+                  else:
+                      st.info(f"{pred_label}은 지하 주차장에 진입할 수 있습니다. 🥳")
 
-                # 서버에 이미지 저장
-                SAVE_DIR = "./uploaded_images"
-                os.makedirs(SAVE_DIR, exist_ok=True)
-                save_path = os.path.join(SAVE_DIR, uploaded_file.name)
-                with open(save_path, "wb") as f:
-                    f.write(uploaded_file.getbuffer())
-                # st.info(f"The image is successfully saved: {save_path}")
+                  # 서버에 이미지 저장
+                  SAVE_DIR = "./uploaded_images"
+                  os.makedirs(SAVE_DIR, exist_ok=True)
+                  save_path = os.path.join(SAVE_DIR, uploaded_file.name)
+                  with open(save_path, "wb") as f:
+                      f.write(uploaded_file.getbuffer())
+                  # st.info(f"The image is successfully saved: {save_path}")
 
-    st.write('-' * 10)
-    col1, col2, col3 = st.columns([2, 4, 2])  # 좌측, 중앙, 우측 열로 나누기
-    with col1:
-        if st.button("⬅️Back"):
-            go_to_page(1)
+      st.write('-' * 10)
+      col1, col2, col3 = st.columns([2, 4, 2])  # 좌측, 중앙, 우측 열로 나누기
+      with col1:
+          if st.button("⬅️Back"):
+              go_to_page(1)
 
-    with col3:
-        if st.button("More➡️"):
-            go_to_page(3)
+      with col3:
+          if st.button("More➡️"):
+              go_to_page(3)
 
 
-elif st.session_state['page'] == 3:
-    main_bg_color = "#ECF8E0"  # 메인 페이지 배경색
-    st.markdown(f"""
+  elif st.session_state['page'] == 3:
+      main_bg_color = "#ECF8E0"  # 메인 페이지 배경색
+      st.markdown(f"""
         <style>
         /* 메인 페이지 배경 색 설정 */
         .stApp {{

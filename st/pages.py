@@ -13,7 +13,7 @@ def main_page():
         </style>
     """, unsafe_allow_html=True)
 
-    st.image("C:\Workspace\DA36-mini3-dl2\streamlit\data\park.jpg")
+    st.image("C:\Workspaces\mini3_team2\st\data\park.jpg")
     st.title("Where to Park?")
     st.markdown("<br>", unsafe_allow_html=True)
 
